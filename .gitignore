@@ -2,4 +2,4 @@ data/
 __pycache__/
 .venv/
 .vscode/
-.env
+src/.env
