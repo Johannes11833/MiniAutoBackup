@@ -1,0 +1,6 @@
+rclone-python~=0.1.7
+python-dotenv~=1.0.0 
+tzlocal
+apscheduler
+python-dateutil
+rich

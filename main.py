@@ -1,0 +1,36 @@
+import os
+from threading import Event
+from rclone_python import rclone
+from scheduler import TimeScheduler, DailyTask
+from dotenv import load_dotenv
+import logging
+from rich.logging import RichHandler
+
+
+def upload():
+    rclone.sync("data", REMOTE_EXPORT_PATH)
+
+
+if __name__ == "__main__":
+    # setup logger
+    log = logging.getLogger("rich")
+    FORMAT = "%(message)s"
+    logging.basicConfig(
+        level="INFO", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+    )
+
+    # load ENV-variables
+    load_dotenv()
+    REMOTE_EXPORT_PATH = os.getenv("REMOTE_EXPORT_PATH")
+    UPLOAD_TIMES = os.getenv("UPLOAD_SCHEDULE") or "00:00"
+    UPLOAD_TIMES = UPLOAD_TIMES.split()
+
+    # setup the scheduler
+    ts = TimeScheduler()
+    for schedule in UPLOAD_TIMES:
+        ts.add(DailyTask(schedule, upload))
+        log.info(f"Scheduling daily uploads @ {schedule}")
+    ts.start()
+
+    # wait until manually stopped
+    Event().wait()
