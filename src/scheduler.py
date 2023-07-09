@@ -76,9 +76,9 @@ class TimeScheduler:
         self.task_list = []
 
     def start(self):
+        logging.getLogger("apscheduler.scheduler").setLevel("WARNING")
         scheduler = BackgroundScheduler()
         scheduler.start()
-        logging.getLogger("apscheduler.scheduler").setLevel("WARNING")
 
         for task in self.task_list:
             trigger = task.create_trigger()

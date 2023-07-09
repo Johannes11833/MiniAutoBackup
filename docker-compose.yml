@@ -1,10 +1,11 @@
 services:
   auto-server-backup:
+    tty: true
     restart: always
     environment:
       TZ: "Europe/Berlin"
       REMOTE_EXPORT_PATH: "onedrive_crypt:pi_backup"
-      UPLOAD_SCHEDULE: "23:16:50"
+      UPLOAD_SCHEDULE: "14:43:00"
     image: backuper
     volumes:
       - ./data:/backup/data:ro

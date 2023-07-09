@@ -16,7 +16,14 @@ if __name__ == "__main__":
     log = logging.getLogger("rich")
     FORMAT = "%(message)s"
     logging.basicConfig(
-        level="INFO", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+        level="INFO",
+        format=FORMAT,
+        datefmt="[%X]",
+        handlers=[
+            RichHandler(
+                rich_tracebacks=True,
+            )
+        ],
     )
 
     # load ENV-variables
