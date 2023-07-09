@@ -1,4 +1,5 @@
 import os
+import sys
 from threading import Event
 from rclone_python import rclone
 from scheduler import TimeScheduler, DailyTask
@@ -29,6 +30,9 @@ if __name__ == "__main__":
     # load ENV-variables
     load_dotenv()
     REMOTE_EXPORT_PATH = os.getenv("REMOTE_EXPORT_PATH")
+    if REMOTE_EXPORT_PATH is None:
+        log.error("The env variable REMOTE_EXPORT_PATH is not set.")
+        sys.exit()
     UPLOAD_TIMES = os.getenv("UPLOAD_SCHEDULE") or "00:00"
     UPLOAD_TIMES = UPLOAD_TIMES.split()
 
