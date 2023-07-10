@@ -5,8 +5,8 @@ services:
     environment:
       TZ: "Europe/Berlin"
       REMOTE_EXPORT_PATH: "onedrive_crypt:pi_backup"
-      UPLOAD_SCHEDULE: "14:43:00"
-    image: backuper
+      UPLOAD_SCHEDULE: "17:10:50"
+    image: therealjohannes/server_backup
     volumes:
       - ./data:/backup/data:ro
       # the default location of the rclone config (check with `rclone config file`)

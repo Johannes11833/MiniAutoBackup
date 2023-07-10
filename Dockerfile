@@ -1,8 +1,13 @@
 # set base image (host OS)
 FROM python:3.10.12-slim-buster
 
+# install unzip and curl
+RUN apt-get update && apt install -y \
+    curl \
+    unzip
+
 # install rclone
-RUN apt-get update && apt install rclone -y
+RUN curl https://rclone.org/install.sh | bash
 
 # set the working directory in the container
 WORKDIR /backup
