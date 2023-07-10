@@ -4,6 +4,8 @@ services:
     restart: always
     environment:
       TZ: "Europe/Berlin"
+      # start the backup right after launching the service
+      BACKUP_ON_START: true
       # Where to upload the local files to. The remote name followed by the path on this remote.
       REMOTE_EXPORT_PATH: "onedrive_crypt:pi_backup"
       # When to backup the local files. Can contain multiple timepoint seperated by a single space.
