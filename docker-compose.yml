@@ -1,7 +1,7 @@
 services:
   auto-server-backup:
     tty: true
-    restart: always
+    restart: unless-stopped
     environment:
       TZ: "Europe/Berlin"
       # start the backup right after launching the service
@@ -15,6 +15,9 @@ services:
       # mount your local data folders below that you want to be backed up
       # these should be under "/backup/data"
       - ./data:/backup/data:ro
-      
+
       # the default location of the rclone config (check with `rclone config file`)
       - $HOME/.config/rclone:/root/.config/rclone
+
+      # optional to access the logs
+      - ./logs:/backup/logs

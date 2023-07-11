@@ -1,6 +1,7 @@
 import os
 import sys
 from threading import Event
+from time import strftime, gmtime
 from rclone_python import rclone
 from scheduler import TimeScheduler, DailyTask
 from dotenv import load_dotenv
@@ -16,15 +17,20 @@ if __name__ == "__main__":
     # setup logger
     log = logging.getLogger("rich")
     FORMAT = "%(message)s"
+    file_handler = logging.FileHandler(
+        f"logs/{strftime('%Y_%m_%d_%H_%M_%S', gmtime())}.log"
+    )
     logging.basicConfig(
         level="INFO",
         format=FORMAT,
         datefmt="[%X]",
         handlers=[
-            RichHandler(
-                rich_tracebacks=True,
-            )
+            RichHandler(rich_tracebacks=True),
+            file_handler,
         ],
+    )
+    file_handler.setFormatter(
+        logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
     )
 
     # load ENV-variables
@@ -36,6 +42,11 @@ if __name__ == "__main__":
         sys.exit()
     UPLOAD_TIMES = os.getenv("UPLOAD_SCHEDULE") or "00:00"
     UPLOAD_TIMES = UPLOAD_TIMES.split()
+
+    remote_name = REMOTE_EXPORT_PATH.split(":", 1)[1]
+    if not rclone.check_remote_existing(remote_name):
+        log.error(f'The remote "{remote_name}" does not exist in the rclone config!')
+        sys.exit(0)
 
     # setup the scheduler
     ts = TimeScheduler()
