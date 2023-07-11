@@ -1,5 +1,6 @@
 data/
 __pycache__/
+logs/
 .venv/
 .vscode/
 src/.env

@@ -43,7 +43,7 @@ if __name__ == "__main__":
     UPLOAD_TIMES = os.getenv("UPLOAD_SCHEDULE") or "00:00"
     UPLOAD_TIMES = UPLOAD_TIMES.split()
 
-    remote_name = REMOTE_EXPORT_PATH.split(":", 1)[1]
+    remote_name = REMOTE_EXPORT_PATH.split(":", 1)[0]
     if not rclone.check_remote_existing(remote_name):
         log.error(f'The remote "{remote_name}" does not exist in the rclone config!')
         sys.exit(0)
